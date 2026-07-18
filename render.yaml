@@ -1,0 +1,14 @@
+# Render blueprint for the Employee Attrition Prediction API (AIT403 Task 2d)
+# Simplest deploy: create a GitHub repo whose ROOT is the contents of this `api/` folder,
+# so this render.yaml sits at the repo root. Then in Render: New > Blueprint > pick the repo.
+# (Or create a Web Service manually with the same Build/Start commands below.)
+services:
+  - type: web
+    name: attrition-prediction-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7

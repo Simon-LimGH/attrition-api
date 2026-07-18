@@ -1,0 +1,508 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Employee Attrition Prediction API",
+    "description": "Predicts the probability that an employee will leave the organisation, returns a risk tier, and lists the individual risk factors that apply \u2014 designed to be consumed by an n8n AI-agent workflow. Model: Logistic Regression (AIT403 Task 2c).",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Root",
+        "description": "Service metadata \u2014 model, threshold, and held-out performance.",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Health",
+        "description": "Liveness probe for the cloud platform and the n8n workflow.",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict": {
+      "post": {
+        "tags": [
+          "prediction"
+        ],
+        "summary": "Predict",
+        "description": "Score a single employee and return probability, risk tier, and applicable risk factors.",
+        "operationId": "predict_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Prediction"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict/batch": {
+      "post": {
+        "tags": [
+          "prediction"
+        ],
+        "summary": "Predict Batch",
+        "description": "Score many employees in one call (convenience for bulk workforce scans).",
+        "operationId": "predict_batch_predict_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Employee"
+                },
+                "type": "array",
+                "title": "Employees"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Prediction"
+                  },
+                  "type": "array",
+                  "title": "Response Predict Batch Predict Batch Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Employee": {
+        "properties": {
+          "employee_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Employee Name",
+            "description": "Optional display name for alerts"
+          },
+          "employee_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Employee Id",
+            "description": "Optional employee identifier"
+          },
+          "Age": {
+            "type": "integer",
+            "title": "Age"
+          },
+          "BusinessTravel": {
+            "type": "string",
+            "title": "Businesstravel",
+            "description": "Non-Travel | Travel_Rarely | Travel_Frequently"
+          },
+          "DailyRate": {
+            "type": "integer",
+            "title": "Dailyrate"
+          },
+          "Department": {
+            "type": "string",
+            "title": "Department",
+            "description": "Sales | Research & Development | Human Resources"
+          },
+          "DistanceFromHome": {
+            "type": "integer",
+            "title": "Distancefromhome"
+          },
+          "Education": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Education"
+          },
+          "EducationField": {
+            "type": "string",
+            "title": "Educationfield"
+          },
+          "EnvironmentSatisfaction": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Environmentsatisfaction"
+          },
+          "Gender": {
+            "type": "string",
+            "title": "Gender",
+            "description": "Male | Female"
+          },
+          "HourlyRate": {
+            "type": "integer",
+            "title": "Hourlyrate"
+          },
+          "JobInvolvement": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Jobinvolvement"
+          },
+          "JobLevel": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Joblevel"
+          },
+          "JobRole": {
+            "type": "string",
+            "title": "Jobrole"
+          },
+          "JobSatisfaction": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Jobsatisfaction"
+          },
+          "MaritalStatus": {
+            "type": "string",
+            "title": "Maritalstatus",
+            "description": "Single | Married | Divorced"
+          },
+          "MonthlyIncome": {
+            "type": "integer",
+            "title": "Monthlyincome"
+          },
+          "MonthlyRate": {
+            "type": "integer",
+            "title": "Monthlyrate"
+          },
+          "NumCompaniesWorked": {
+            "type": "integer",
+            "title": "Numcompaniesworked"
+          },
+          "OverTime": {
+            "type": "string",
+            "title": "Overtime",
+            "description": "Yes | No"
+          },
+          "PercentSalaryHike": {
+            "type": "integer",
+            "title": "Percentsalaryhike"
+          },
+          "PerformanceRating": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Performancerating"
+          },
+          "RelationshipSatisfaction": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Relationshipsatisfaction"
+          },
+          "StockOptionLevel": {
+            "type": "integer",
+            "maximum": 3.0,
+            "minimum": 0.0,
+            "title": "Stockoptionlevel"
+          },
+          "TotalWorkingYears": {
+            "type": "integer",
+            "title": "Totalworkingyears"
+          },
+          "TrainingTimesLastYear": {
+            "type": "integer",
+            "title": "Trainingtimeslastyear"
+          },
+          "WorkLifeBalance": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 1.0,
+            "title": "Worklifebalance"
+          },
+          "YearsAtCompany": {
+            "type": "integer",
+            "title": "Yearsatcompany"
+          },
+          "YearsInCurrentRole": {
+            "type": "integer",
+            "title": "Yearsincurrentrole"
+          },
+          "YearsSinceLastPromotion": {
+            "type": "integer",
+            "title": "Yearssincelastpromotion"
+          },
+          "YearsWithCurrManager": {
+            "type": "integer",
+            "title": "Yearswithcurrmanager"
+          }
+        },
+        "type": "object",
+        "required": [
+          "Age",
+          "BusinessTravel",
+          "DailyRate",
+          "Department",
+          "DistanceFromHome",
+          "Education",
+          "EducationField",
+          "EnvironmentSatisfaction",
+          "Gender",
+          "HourlyRate",
+          "JobInvolvement",
+          "JobLevel",
+          "JobRole",
+          "JobSatisfaction",
+          "MaritalStatus",
+          "MonthlyIncome",
+          "MonthlyRate",
+          "NumCompaniesWorked",
+          "OverTime",
+          "PercentSalaryHike",
+          "PerformanceRating",
+          "RelationshipSatisfaction",
+          "StockOptionLevel",
+          "TotalWorkingYears",
+          "TrainingTimesLastYear",
+          "WorkLifeBalance",
+          "YearsAtCompany",
+          "YearsInCurrentRole",
+          "YearsSinceLastPromotion",
+          "YearsWithCurrManager"
+        ],
+        "title": "Employee",
+        "description": "One employee's attributes. Field names match the IBM HR dataset columns.\n\n`employee_name` / `employee_id` are optional identifiers echoed back in the response\n(useful for the alert message); they are not used by the model.",
+        "example": {
+          "Age": 29,
+          "BusinessTravel": "Travel_Frequently",
+          "DailyRate": 800,
+          "Department": "Sales",
+          "DistanceFromHome": 15,
+          "Education": 3,
+          "EducationField": "Marketing",
+          "EnvironmentSatisfaction": 1,
+          "Gender": "Male",
+          "HourlyRate": 60,
+          "JobInvolvement": 2,
+          "JobLevel": 1,
+          "JobRole": "Sales Representative",
+          "JobSatisfaction": 1,
+          "MaritalStatus": "Single",
+          "MonthlyIncome": 2800,
+          "MonthlyRate": 12000,
+          "NumCompaniesWorked": 5,
+          "OverTime": "Yes",
+          "PercentSalaryHike": 12,
+          "PerformanceRating": 3,
+          "RelationshipSatisfaction": 2,
+          "StockOptionLevel": 0,
+          "TotalWorkingYears": 4,
+          "TrainingTimesLastYear": 2,
+          "WorkLifeBalance": 1,
+          "YearsAtCompany": 2,
+          "YearsInCurrentRole": 2,
+          "YearsSinceLastPromotion": 1,
+          "YearsWithCurrManager": 2,
+          "employee_id": 1042,
+          "employee_name": "Jordan Lee"
+        }
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Prediction": {
+        "properties": {
+          "employee_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Employee Name"
+          },
+          "employee_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Employee Id"
+          },
+          "attrition_probability": {
+            "type": "number",
+            "title": "Attrition Probability",
+            "description": "Model probability of leaving, 0-1"
+          },
+          "risk_tier": {
+            "type": "string",
+            "title": "Risk Tier",
+            "description": "High | Medium | Low"
+          },
+          "will_attrite": {
+            "type": "boolean",
+            "title": "Will Attrite",
+            "description": "True if probability >= decision threshold"
+          },
+          "threshold": {
+            "type": "number",
+            "title": "Threshold"
+          },
+          "risk_factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Risk Factors",
+            "description": "Individual drivers that apply to this employee"
+          },
+          "model_name": {
+            "type": "string",
+            "title": "Model Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "employee_name",
+          "employee_id",
+          "attrition_probability",
+          "risk_tier",
+          "will_attrite",
+          "threshold",
+          "risk_factors",
+          "model_name"
+        ],
+        "title": "Prediction"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

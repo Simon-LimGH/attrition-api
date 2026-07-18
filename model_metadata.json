@@ -1,0 +1,166 @@
+{
+  "model_name": "Logistic Regression",
+  "decision_threshold": 0.417,
+  "tier_cuts": {
+    "High": 0.6,
+    "Medium": 0.417,
+    "Low": 0.0
+  },
+  "test_metrics": {
+    "Accuracy": 0.752,
+    "Precision": 0.349,
+    "Recall": 0.638,
+    "F1": 0.451,
+    "ROC-AUC": 0.803,
+    "PR-AUC": 0.561
+  },
+  "raw_feature_order": [
+    "Age",
+    "BusinessTravel",
+    "DailyRate",
+    "Department",
+    "DistanceFromHome",
+    "Education",
+    "EducationField",
+    "EnvironmentSatisfaction",
+    "Gender",
+    "HourlyRate",
+    "JobInvolvement",
+    "JobLevel",
+    "JobRole",
+    "JobSatisfaction",
+    "MaritalStatus",
+    "MonthlyIncome",
+    "MonthlyRate",
+    "NumCompaniesWorked",
+    "OverTime",
+    "PercentSalaryHike",
+    "PerformanceRating",
+    "RelationshipSatisfaction",
+    "StockOptionLevel",
+    "TotalWorkingYears",
+    "TrainingTimesLastYear",
+    "WorkLifeBalance",
+    "YearsAtCompany",
+    "YearsInCurrentRole",
+    "YearsSinceLastPromotion",
+    "YearsWithCurrManager"
+  ],
+  "nominal_cols": [
+    "BusinessTravel",
+    "Department",
+    "EducationField",
+    "Gender",
+    "JobRole",
+    "MaritalStatus",
+    "OverTime"
+  ],
+  "numeric_cols": [
+    "Education",
+    "EnvironmentSatisfaction",
+    "JobInvolvement",
+    "JobLevel",
+    "JobSatisfaction",
+    "PerformanceRating",
+    "RelationshipSatisfaction",
+    "StockOptionLevel",
+    "WorkLifeBalance",
+    "Age",
+    "DailyRate",
+    "DistanceFromHome",
+    "HourlyRate",
+    "MonthlyIncome",
+    "MonthlyRate",
+    "NumCompaniesWorked",
+    "PercentSalaryHike",
+    "TotalWorkingYears",
+    "TrainingTimesLastYear",
+    "YearsAtCompany",
+    "YearsInCurrentRole",
+    "YearsSinceLastPromotion",
+    "YearsWithCurrManager"
+  ],
+  "categorical_levels": {
+    "BusinessTravel": [
+      "Non-Travel",
+      "Travel_Frequently",
+      "Travel_Rarely"
+    ],
+    "Department": [
+      "Human Resources",
+      "Research & Development",
+      "Sales"
+    ],
+    "EducationField": [
+      "Human Resources",
+      "Life Sciences",
+      "Marketing",
+      "Medical",
+      "Other",
+      "Technical Degree"
+    ],
+    "Gender": [
+      "Female",
+      "Male"
+    ],
+    "JobRole": [
+      "Healthcare Representative",
+      "Human Resources",
+      "Laboratory Technician",
+      "Manager",
+      "Manufacturing Director",
+      "Research Director",
+      "Research Scientist",
+      "Sales Executive",
+      "Sales Representative"
+    ],
+    "MaritalStatus": [
+      "Divorced",
+      "Married",
+      "Single"
+    ],
+    "OverTime": [
+      "No",
+      "Yes"
+    ]
+  },
+  "feature_medians": {
+    "Education": 3.0,
+    "EnvironmentSatisfaction": 3.0,
+    "JobInvolvement": 3.0,
+    "JobLevel": 2.0,
+    "JobSatisfaction": 3.0,
+    "PerformanceRating": 3.0,
+    "RelationshipSatisfaction": 3.0,
+    "StockOptionLevel": 1.0,
+    "WorkLifeBalance": 3.0,
+    "Age": 36.0,
+    "DailyRate": 802.0,
+    "DistanceFromHome": 7.0,
+    "HourlyRate": 66.0,
+    "MonthlyIncome": 4919.0,
+    "MonthlyRate": 14235.5,
+    "NumCompaniesWorked": 2.0,
+    "PercentSalaryHike": 14.0,
+    "TotalWorkingYears": 10.0,
+    "TrainingTimesLastYear": 3.0,
+    "YearsAtCompany": 5.0,
+    "YearsInCurrentRole": 3.0,
+    "YearsSinceLastPromotion": 1.0,
+    "YearsWithCurrManager": 3.0
+  },
+  "top_drivers": [
+    "OverTime",
+    "NumCompaniesWorked",
+    "MaritalStatus",
+    "YearsSinceLastPromotion",
+    "JobSatisfaction",
+    "BusinessTravel",
+    "JobRole",
+    "JobInvolvement",
+    "TrainingTimesLastYear",
+    "YearsWithCurrManager"
+  ],
+  "positive_rate": 0.1616,
+  "sklearn_version": "1.7.2"
+}
