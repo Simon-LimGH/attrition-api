@@ -1,8 +1,8 @@
 """
 Employee Attrition Prediction API
 
-A FastAPI service that wraps the trained attrition model (Task 2c) so predictions can be
-requested programmatically by the n8n agentic workflow (Task 2e).
+A FastAPI service that wraps the trained attrition model so predictions can be
+requested programmatically by the n8n agentic workflow.
 
 The joblib artifact is a *complete* scikit-learn Pipeline (preprocessing + Logistic Regression),
 so the API applies exactly the same transformations used at training time — no training/serving
