@@ -1,6 +1,5 @@
 """
-AIT403 — Employee Attrition Prediction API
-==========================================
+Employee Attrition Prediction API
 
 A FastAPI service that wraps the trained attrition model (Task 2c) so predictions can be
 requested programmatically by the n8n agentic workflow (Task 2e).
@@ -24,7 +23,7 @@ import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
-# --------------------------------------------------------------------------- load artifacts
+# load artifacts
 HERE = Path(__file__).parent
 PIPELINE = joblib.load(HERE / "attrition_pipeline.joblib")
 META = json.loads((HERE / "model_metadata.json").read_text(encoding="utf-8"))
@@ -45,7 +44,7 @@ app = FastAPI(
 )
 
 
-# --------------------------------------------------------------------------- schemas
+# schemas
 class Employee(BaseModel):
     """One employee's attributes. Field names match the IBM HR dataset columns.
 
@@ -118,10 +117,10 @@ class Prediction(BaseModel):
     model_name: str
 
 
-# --------------------------------------------------------------------------- business logic
+#  business logic
 HIGH_RISK_ROLES = {"Sales Representative", "Laboratory Technician", "Human Resources"}
 
-# Ordered by the model's global driver ranking (Task 2c permutation importance) + EDA direction.
+# Ordered by the model's global driver ranking + EDA direction.
 # Each rule: (message, predicate on the employee dict). Transparent, per-employee explanation
 # layer that gives the downstream AI agent concrete factors to reason over.
 def _risk_factors(e: dict) -> list[str]:
@@ -168,7 +167,7 @@ def _predict_one(emp: Employee) -> Prediction:
     )
 
 
-# --------------------------------------------------------------------------- endpoints
+# endpoints
 @app.get("/", tags=["meta"])
 def root():
     """Service metadata — model, threshold, and held-out performance."""
