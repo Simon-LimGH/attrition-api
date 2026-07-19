@@ -1,7 +1,7 @@
-# Employee Attrition Prediction API (AIT403 — Task 2d)
+# Employee Attrition Prediction API
 
-A FastAPI service that exposes the trained attrition model (Task 2c) as a REST API so predictions
-can be requested programmatically by the n8n agentic workflow (Task 2e).
+A FastAPI service that exposes the trained attrition model as a REST API so predictions
+can be requested programmatically by the n8n agentic workflow.
 
 ## What it serves
 
